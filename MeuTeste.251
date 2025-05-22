@@ -1,0 +1,49 @@
+program Factorial
+
+declarations
+var integer: n;
+var integer: result;
+var real: values[5];
+var string: greeting;
+endDeclararions
+
+/*
+ * Programa escrito em CangaCode2025-1
+ * Este é um comentário em bloco.
+ */
+
+functions
+func integer:             factorial(paramType integer: n) {
+    // se n <= 1, retorna 1
+    if (n <= 1) {
+        return 1
+    } else {
+        // recursao: n * factorial(n-1)
+        return n *                  factorial(paramType integer: (n - 1))
+    } endIf
+}             endFunction;
+
+func void: main(paramType ?) {
+    n := 5;
+    result := factorial(paramType integer: n);
+    
+    // exemplo de uso de print
+    print result
+    
+    while (n < 10) {
+        n := n + 1
+    } endWhile
+
+    greeting := "Esta é uma string, espaços extras    aqui       dentro      não devem      ser   eliminados.";
+    
+    return
+} endFunction
+
+/*
+ * Programa escrito em CangaCode2025-1
+ * Este é um outro comentário em bloco.
+ */
+
+endFunctions
+
+endProgram
