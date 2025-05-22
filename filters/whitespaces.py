@@ -16,7 +16,7 @@ class Whitespaces:
       
     return stripped
   
-  def auxRemoveWhitespaces(line: str) -> str:
+  def auxRemoveWhitespaces(self, line: str) -> str:
     '''
     Remove repetições de espaço em branco (colapsa para um só) 
     em todo texto exceto dentro de literais de string ("...").

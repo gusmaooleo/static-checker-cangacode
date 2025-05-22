@@ -25,7 +25,7 @@ func integer:             factorial(paramType integer: n) {
 
 func void: main(paramType ?) {
     n := 5;
-    result := factorial(paramType integer: n);
+    result := factorial(paramType integer: n); // atribuição para result
     
     // exemplo de uso de print
     print result

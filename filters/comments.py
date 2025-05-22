@@ -4,18 +4,22 @@ class Comments:
     Remove os comentários a partir de 
     linhas iniciadas em '//', '/*' e '*/'.
     '''
-    lineComments = [i if not i.startswith("//") else '\n' for i in source]
-
+    
     window = False
-    for i in range(len(lineComments)):
-      if lineComments[i].startswith("/*"):
+    for i in range(len(source)):
+      if source[i].startswith("/*"):
         window = True
-        lineComments[i] = "\n"
-      elif lineComments[i].startswith("*/") and window:
+        source[i] = "\n"
+      elif source[i].startswith("*/") and window:
         window = False
-        lineComments[i] = "\n"
+        source[i] = "\n"
+      else:
+        for j in range(1, len(source[i])):
+          if source[i][j - 1] + source[i][j] == "//":
+            source[i] = source[i][:j - 1].strip() + "\n"
+            break
 
       if window:
-        lineComments[i] = "\n"
-
-    return lineComments
+        source[i] = "\n"
+    
+    return source
