@@ -9,12 +9,11 @@ class Whitespaces:
     Returns:
       list[str]: Versão do arquivo original sem espaços extra em branco.
     '''
-    stripped = [line.strip() + "\n" for line in source]
 
-    for i in range(len(stripped)):
-      stripped[i] = self.auxRemoveWhitespaces(stripped[i])
-      
-    return stripped
+    for i in range(len(source)):
+      source[i] = self.auxRemoveWhitespaces(source[i])
+    
+    return source
   
   def auxRemoveWhitespaces(self, line: str) -> str:
     '''
@@ -42,4 +41,4 @@ class Whitespaces:
           out.append(ch)
           prev_space = False
 
-    return ''.join(out)
+    return ''.join(out).strip() + "\n"
