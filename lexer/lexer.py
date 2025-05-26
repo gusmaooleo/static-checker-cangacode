@@ -5,12 +5,13 @@ com tipo e lexema.
 
 from lexer.Buffer import Buffer
 from lexer.token import Token
-from lexer.lexer_tokens import identifier_tokens, reserved_symbols
+from lexer.lexer_tokens import identifier_tokens, reserved_symbols, symbols_ops
 
 class Lexer:
   def __init__(self, lines: list[str]) -> None:
     self.buf = Buffer(lines)
     self.symbol_table: dict[str, dict] = {}
+    self.single_char_symbols = { k for k in symbols_ops.keys() if len(k) == 1 }
 
   def run(self) -> Token:
     self.buf.skip_whitespace()
@@ -22,14 +23,43 @@ class Lexer:
 
     if ch.isalpha() or ch == '_':
       lex = self.read_while(lambda c: c.isalnum() or c == '_')
-      code = reserved_symbols.get(lex, identifier_tokens["variable"])
+      # TODO: os identifier_tokens precisam distinguir entre variable, programname etc. (resultado na tabela está errado)
+      code = reserved_symbols.get(lex, identifier_tokens["VARIABLE"]) 
       sym_index = None
-      if code == identifier_tokens["variable"]:
-          sym_index = self.add_identifier(lex, code, start_line, raw_length=len(lex))
+      if code == identifier_tokens["VARIABLE"]:
+        sym_index = self.add_identifier(lex, code, start_line, raw_length=len(lex))
       return Token(lex, code, sym_index, start_line)
+
+    if ch.isdigit():
+      lex = self.read_number()
+      code = identifier_tokens["REALCONST"] if "." in lex else identifier_tokens["INTCONST"] 
+      return Token(lex, code, None, start_line)
     
-    return
-  
+    if ch == '"':
+      lex = self.read_string_literal()
+      return Token(lex, identifier_tokens["STRINGCONST"], None, start_line)
+    
+    if ch == "'":
+      lex = self.read_char_literal()
+      return Token(lex, identifier_tokens["CHARCONST"], None, start_line)
+    
+    two = self.buf.peek(2)
+    if two in symbols_ops:
+      self.buf.advance(); self.buf.advance()
+      return Token(two, symbols_ops[two], None, start_line)
+    if ch in symbols_ops:
+      self.buf.advance()
+      return Token(ch, symbols_ops[ch], None, start_line)
+    
+    '''Falta implementação de sub-máquinas dinâmicas. (será feita após implementação dos automatos)'''
+
+    if ch in self.single_char_symbols:
+      self.buf.advance()
+      return Token(ch, symbols_ops[ch], None, start_line)
+
+    self.buf.advance()
+    return self.run()
+    
   def read_while(self, cond):
     result = ""
     while not self.buf.eof() and cond(self.buf.peek()):
@@ -103,17 +133,38 @@ class Lexer:
     out += self.buf.advance()
     return out
   
-  def add_identifier(self, name: str, line: int, col: int):
+  def add_identifier(self, lexeme: str, code: str, line: int, raw_length: int):
     """
-    Se o nome não estiver na tabela, cria uma entry.
-    Retorna o dict da entry.
+    Insere/atualiza symbol_table e retorna o índice (1-based)
+    da entry correspondente.
     """
-    if name not in self.symbol_table:
-      self.symbol_table[name] = {
-          "token": identifier_tokens["variable"],
-          "lexeme": name,
-          "line": line,
-          "col": col,
+    if lexeme not in self.symbol_table:
+      self.symbol_table[lexeme] = {
+        "lexeme": lexeme,
+        "code": code,
+        "raw_length": raw_length,
+        "trunc_length": len(lexeme),
+        "type_code": self._infer_type(code),
+        "lines": [line],
       }
-    return self.symbol_table[name]
+    else:
+      entry = self.symbol_table[lexeme]
+      if line not in entry["lines"] and len(entry["lines"]) < 5:
+        entry["lines"].append(line)
+    
+    idx = list(self.symbol_table.keys()).index(lexeme) + 1
+    return idx
+  
+  def _infer_type(self, code: str) -> str:
+    type_map = {
+      "IDN01": "VD",
+      "IDN02": "IN",
+      "IDN03": "VD",
+      "IDN04": "IN",
+      "IDN05": "FP",
+      "IDN06": "ST",
+      "IDN07": "CH",
+    }
+    return type_map.get(code, "")
+
   

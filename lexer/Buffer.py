@@ -9,11 +9,17 @@ class Buffer:
     self.line_no = 0
     self.col_no = 0
 
-  def peek(self) -> str:
-    '''Olha o caractere atual sem consumir.'''
-    if self.eof():
+  def peek(self, length: int = 1) -> str:
+    """
+    Retorna os próximos 'length' caracteres a partir de (line_no, col_no),
+    sem consumir nada. Se chegar no fim da linha, devolve até onde der.
+    """
+    if self.line_no >= len(self.lines):
       return ""
-    return self.lines[self.line_no][self.col_no]
+    line = self.lines[self.line_no]
+    start = self.col_no
+    end = min(len(line), start + length)
+    return line[start:end]
 
   def advance(self) -> str:
     '''

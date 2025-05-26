@@ -72,6 +72,5 @@ identifier_tokens = {
 
 submachine_tokens: dict[str, str] = {}
 
-reserved_symbols = { k.upper(): v for k, v in reserved_symbols.items() }
-symbols_ops       = { k.upper(): v for k, v in symbols_ops.items() }
+reserved_symbols  = { k.upper(): v for k, v in reserved_symbols.items() }
 identifier_tokens = { k.upper(): v for k, v in identifier_tokens.items() }
