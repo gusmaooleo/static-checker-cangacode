@@ -5,6 +5,7 @@ com tipo e lexema.
 
 from lexer.Buffer import Buffer
 from lexer.token import Token
+from lexer.states import State
 from lexer.lexer_tokens import identifier_tokens, reserved_symbols, symbols_ops
 
 class Lexer:
@@ -12,21 +13,22 @@ class Lexer:
     self.buf = Buffer(lines)
     self.symbol_table: dict[str, dict] = {}
     self.single_char_symbols = { k for k in symbols_ops.keys() if len(k) == 1 }
+    self.symbol_scope: str = State.VARIABLE.name
 
   def run(self) -> Token:
     self.buf.skip_whitespace()
     if self.buf.eof():
       return Token(lexeme="", code="EOF", sym_index=None, line=self.buf.line_no)
     
-    start_line = self.buf.line_no
+    start_line = self.buf.line_no + 1
     ch = self.buf.peek()
 
     if ch.isalpha() or ch == '_':
       lex = self.read_while(lambda c: c.isalnum() or c == '_')
-      # TODO: os identifier_tokens precisam distinguir entre variable, programname etc. (resultado na tabela está errado)
-      code = reserved_symbols.get(lex, identifier_tokens["VARIABLE"]) 
+      self.setScope(lex)
+      code = reserved_symbols.get(lex, identifier_tokens[self.symbol_scope])
       sym_index = None
-      if code == identifier_tokens["VARIABLE"]:
+      if code == identifier_tokens[self.symbol_scope]:
         sym_index = self.add_identifier(lex, code, start_line, raw_length=len(lex))
       return Token(lex, code, sym_index, start_line)
 
@@ -138,8 +140,10 @@ class Lexer:
     Insere/atualiza symbol_table e retorna o índice (1-based)
     da entry correspondente.
     """
-    if lexeme not in self.symbol_table:
-      self.symbol_table[lexeme] = {
+    symbol_name = lexeme + code
+
+    if symbol_name not in self.symbol_table:
+      self.symbol_table[symbol_name] = {
         "lexeme": lexeme,
         "code": code,
         "raw_length": raw_length,
@@ -148,11 +152,12 @@ class Lexer:
         "lines": [line],
       }
     else:
-      entry = self.symbol_table[lexeme]
+      entry = self.symbol_table[symbol_name]
       if line not in entry["lines"] and len(entry["lines"]) < 5:
         entry["lines"].append(line)
     
-    idx = list(self.symbol_table.keys()).index(lexeme) + 1
+    idx = list(self.symbol_table.keys()).index(symbol_name) + 1
+    self.symbol_scope = State.VARIABLE.name
     return idx
   
   def _infer_type(self, code: str) -> str:
@@ -166,5 +171,21 @@ class Lexer:
       "IDN07": "CH",
     }
     return type_map.get(code, "")
-
   
+  def setScope(self, lex=""):    
+    if "_" in lex:
+      self.symbol_scope = State.VARIABLE.name
+      return
+    
+    if self.buf.peek() == "(":
+      self.symbol_scope = State.FUNCTIONNAME.name
+      return
+    
+    match lex:
+      case State.FUNCTIONNAME.value:
+        self.symbol_scope = State.FUNCTIONNAME.name
+        return
+      case State.PROGRAMNAME.value:
+        self.symbol_scope = State.PROGRAMNAME.name
+        return
+    
