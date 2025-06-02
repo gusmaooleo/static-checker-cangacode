@@ -172,13 +172,9 @@ class Lexer:
     }
     return type_map.get(code, "")
   
-  def setScope(self, lex=""):    
+  def setScope(self, lex=""):
     if "_" in lex:
       self.symbol_scope = State.VARIABLE.name
-      return
-    
-    if self.buf.peek() == "(":
-      self.symbol_scope = State.FUNCTIONNAME.name
       return
     
     match lex:

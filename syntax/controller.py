@@ -3,26 +3,20 @@ Coordenará o fluxo de execução do analizador léxico (syntax-driven).
 '''
 from syntax.initializer import Initializer
 from syntax.normalizer import Normalizer
+from syntax.reports import generateReports
 from lexer.token import Token
 from lexer.lexer import Lexer
 
 class Controller:
-  def __init__(self, path: str) -> None:
+  def __init__(self, path: str, filename: str) -> None:
     self.path = path
+    self.filename = filename
 
   def run(self):
     source = Initializer().read_source(self.path)
     formatted_source = self.applyFilters(source)
     lex, tab = self.lexer(formatted_source)
-    print("------------------------------------------")
-    print("")
-    print("")
-    print("Tokens (.LEX)")
-    for i in lex:
-      print("-------------------------------------------------------------------------------------------------------------")
-      print(i)
-
-    
+    generateReports(lex, tab, self.filename)
   
   def applyFilters(self, source: list[str]) -> list[str]:
     '''
@@ -47,20 +41,4 @@ class Controller:
         break
       lex.append(token)
 
-    print("------------------------------------------")
-    print("")
-    print("")
-    print("Tabela de símbolos (.TAB)")
-    keys = lexer.symbol_table.keys()
-    for i in keys:
-      print("-------------------------------------------------------------------------------------------------------------")
-      print(lexer.symbol_table[i])
-
-    
     return lex, lexer.symbol_table
-  
-  def afdeterministic(self):
-    '''
-    Implementa a rotina do reconhecedor.
-    '''
-    return

@@ -28,7 +28,7 @@ funcType void: main(paramType ?) {
     result := factorial(paramType integer: n); // atribuição para result
     
     // exemplo de uso de print
-    print result
+    print /*result*/sadasd
     
     while (n < 10) {
         n := n + 1
