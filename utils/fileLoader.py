@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys
 
-def fileLoader() -> str:
+def fileLoader() -> tuple[str, str]:
   '''
   Arquivos com extensão .251 não existem, portanto o pathlib procura
   por nomenclaturas parciais no diretório e valida aqueles cujo fim é ".251".
@@ -18,4 +18,4 @@ def fileLoader() -> str:
     print(f"Erro: Arquivo com nome '{partial_name}' e extensão '.251' não encontrado.")
     sys.exit(1)
 
-  return str(match)
+  return str(match), partial_name

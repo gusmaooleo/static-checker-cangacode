@@ -3,17 +3,22 @@ Coordenará o fluxo de execução do analizador léxico (syntax-driven).
 '''
 from syntax.initializer import Initializer
 from syntax.normalizer import Normalizer
+from syntax.reports import generateReports
+from lexer.token import Token
+from lexer.lexer import Lexer
 
 class Controller:
-  def __init__(self, path: str) -> None:
+  def __init__(self, path: str, filename: str) -> None:
     self.path = path
+    self.filename = filename
 
   def run(self):
     source = Initializer().read_source(self.path)
     formatted_source = self.applyFilters(source)
-    print(''.join(formatted_source))
+    lex, tab = self.lexer(formatted_source)
+    generateReports(lex, tab, self.filename)
   
-  def applyFilters(self, source: list[str]) -> str:
+  def applyFilters(self, source: list[str]) -> list[str]:
     '''
     Versão do arquivo em lista é enviado para o pipe de normalização e adequação
     para leitura do normalizador.
@@ -23,8 +28,17 @@ class Controller:
     normalizer = Normalizer(source)
     return normalizer.pipe()
   
-  def afdeterministic(self):
+  def lexer(self, lines: list[str]) -> tuple[list[Token], dict[str, dict]]:
     '''
-    Implementa a rotina do reconhecedor.
+    Roda o lexer, lendo o arquivo e dividindo atriubições e keywords em tokens.
     '''
-    return
+    lex: list[Token] = []
+    lexer = Lexer(lines)
+
+    while True:
+      token = lexer.run()
+      if token.code == "EOF":
+        break
+      lex.append(token)
+
+    return lex, lexer.symbol_table

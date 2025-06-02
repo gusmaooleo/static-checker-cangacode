@@ -1,11 +1,11 @@
 program Factorial
 
 declarations
-var integer: n;
-var integer: result;
-var real: values[5];
-var string: greeting;
-endDeclararions
+integer: n;
+integer: result;
+real: values[5];
+string: greeting;
+endDeclarations
 
 /*
  * Programa escrito em CangaCode2025-1
@@ -13,22 +13,22 @@ endDeclararions
  */
 
 functions
-func integer:             factorial(paramType integer: n) {
+funcType integer:             factorial(paramType integer: n) {
     // se n <= 1, retorna 1
     if (n <= 1) {
         return 1
     } else {
-        // recursao: n * factorial(n-1)
-        return n *                  factorial(paramType integer: (n - 1))
+        // recursao: n * factorial(n-1) -> a gramática não permite recursão...
+        return n *                  factorial(paramType integer: (n - 1)) // os espaços são propositais, os filtros devem eliminar esses espaços extras, bem como este comentário.
     } endIf
 }             endFunction;
 
-func void: main(paramType ?) {
-    n := 5;
+funcType void: main(paramType ?) {
+    n@@ := 5;
     result := factorial(paramType integer: n); // atribuição para result
     
     // exemplo de uso de print
-    print result
+    print /*result*/sadasd
     
     while (n < 10) {
         n := n + 1
