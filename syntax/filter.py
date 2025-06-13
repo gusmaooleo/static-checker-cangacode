@@ -9,7 +9,7 @@ from filters.whitespaces import Whitespaces
 from filters.comments import Comments
 from filters.specialCharacters import SpecialCharacters
 
-class Normalizer:
+class Filter:
   def __init__(self, source: list[str]) -> None:
     self.source = source
 
