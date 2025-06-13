@@ -64,28 +64,3 @@ class Comments:
             new_line += "\n"
       result.append(new_line)
     return result
-
-# window = False
-
-# for i in range(len(source)):
-#   if source[i].startswith("/*"):
-#     window = True
-#     source[i] = "\n"
-#   elif source[i].startswith("*/") and window:
-#     window = False
-#     source[i] = "\n"
-#   else:
-#     for j in range(1, len(source[i])):
-#       if source[i][j - 1] + source[i][j] == "//":
-#         source[i] = source[i][:j - 1].strip() + "\n"
-#         break
-#       elif source[i][j - 1] + source[i][j] == "/*":
-#         # print(source[i], 'slice de ', j + 1, 'ate', source[i].find("*/"), source[i][j + 1 : source[i].find("*/")])
-#         source[i] = source[i][:j - 1].strip() + source[i][source[i].find("*/") + 2:].strip()  + "\n"
-#         print(source[i])
-#         print(len(source[i]))
-#         break
-
-#   if window:
-#     source[i] = "\n"
-#

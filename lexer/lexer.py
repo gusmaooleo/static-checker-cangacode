@@ -20,7 +20,7 @@ class Lexer:
     if self.buf.eof():
       return Token(lexeme="", code="EOF", sym_index=None, line=self.buf.line_no)
     
-    start_line = self.buf.line_no + 1
+    start_line = self.buf.line_no
     ch = self.buf.peek()
 
     if ch.isalpha() or ch == '_':
