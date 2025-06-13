@@ -2,7 +2,7 @@
 Coordenará o fluxo de execução do analizador léxico (syntax-driven).
 '''
 from syntax.initializer import Initializer
-from syntax.normalizer import Normalizer
+from syntax.filter import Filter
 from syntax.reports import generateReports
 from lexer.token import Token
 from lexer.lexer import Lexer
@@ -25,8 +25,8 @@ class Controller:
     Returns:
       str: Versão do arquivo pronta para ser lida pelo reconhecedor.
     '''
-    normalizer = Normalizer(source)
-    return normalizer.pipe()
+    filter = Filter(source)
+    return filter.pipe()
   
   def lexer(self, lines: list[str]) -> tuple[list[Token], dict[str, dict]]:
     '''
