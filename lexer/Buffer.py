@@ -10,7 +10,6 @@ class Buffer:
   N = 2048
 
   def __init__(self, lines: list[str]) -> None:
-    # Concatena todas as linhas preservando quebras
     self.input_str = ''.join(lines)
     self.input_len = len(self.input_str)
     self.file_pos = 0
@@ -37,16 +36,13 @@ class Buffer:
     remaining = self.input_len - self.file_pos
     count = min(self.N, remaining)
 
-    # Copia caracteres reais
     for i in range(count):
       self.buffer[start + i] = self.input_str[self.file_pos]
       self.file_pos += 1
 
-    # Preenche resto com EOF
     for i in range(count, self.N):
       self.buffer[start + i] = self.EOF
 
-    # Marca sentinela
     self.buffer[start + self.N] = self.EOF
 
   def advance(self) -> str:
@@ -55,10 +51,8 @@ class Buffer:
     Se encontrar sentinela, recarrega a metade e refaz leitura.
     Atualiza forward, line_no e col_no apenas após obter o caractere final.
     """
-    # Lê caractere atual
     ch = self.buffer[self.forward]
 
-    # Tratamento de sentinela
     if ch == self.EOF:
       if self.forward == self.N:
         self._load_half(0)
@@ -67,15 +61,11 @@ class Buffer:
         self._load_half(1)
         self.forward = self.N + 1
       else:
-        # EOF real
         return ''
-      # Após recarga, lê o caractere de fato
       ch = self.buffer[self.forward]
 
-    # Avança ponteiro de leitura
     self.forward += 1
 
-    # Atualiza posição linha/coluna com base no caractere efetivo
     if ch == '\n':
       self.line_no += 1
       self.col_no = 0

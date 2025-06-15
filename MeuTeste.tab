@@ -1,0 +1,86 @@
+Código da Equipe: EQ02
+Componentes:
+  Bryan Montgomery Hamilton; bryan.hamilton@ucsal.edu.br; 71 99156-4734
+  Felipe Gabriel Oliveira da Silva; felipegabriel.silva@ucsal.edu.br; 75 99921-4939
+  Leonardo Gabriel Cabral Fernandes Gusmão; leonardo.gusmao@ucsal.edu.br; 71 98397-5022
+  Loren Vitória Cavalcante Santos; loren.santos@ucsal.edu.br; 71 98514-7438
+
+RELATÓRIO DA TABELA DE SÍMBOLOS. Texto fonte analisado: MeuTeste.251
+
+--------------------------------
+Lexeme: TESTSUITE,
+Código: IDN01,
+QtdCharAntesTrunc: 0,
+QtdCharDepoisTrunc: 9,
+TipoSimb: VD,
+Linhas: [1]
+--------------------------------
+Lexeme: SHORTVAR,
+Código: IDN02,
+QtdCharAntesTrunc: 0,
+QtdCharDepoisTrunc: 8,
+TipoSimb: IN,
+Linhas: [4, 26, 27, 28, 29]
+--------------------------------
+Lexeme: VERYLONGVARIABLENAMEEXCEEDINGTHI,
+Código: IDN02,
+QtdCharAntesTrunc: 68,
+QtdCharDepoisTrunc: 32,
+TipoSimb: IN,
+Linhas: [4]
+--------------------------------
+Lexeme: DATAARRAY,
+Código: IDN02,
+QtdCharAntesTrunc: 0,
+QtdCharDepoisTrunc: 9,
+TipoSimb: AI,
+Linhas: [5]
+--------------------------------
+Lexeme: ANOTHERARRAY,
+Código: IDN02,
+QtdCharAntesTrunc: 0,
+QtdCharDepoisTrunc: 12,
+TipoSimb: AI,
+Linhas: [5]
+--------------------------------
+Lexeme: MESSAGE,
+Código: IDN02,
+QtdCharAntesTrunc: 0,
+QtdCharDepoisTrunc: 7,
+TipoSimb: IN,
+Linhas: [6, 33]
+--------------------------------
+Lexeme: FLAG,
+Código: IDN02,
+QtdCharAntesTrunc: 0,
+QtdCharDepoisTrunc: 4,
+TipoSimb: IN,
+Linhas: [7, 31, 35]
+--------------------------------
+Lexeme: LETTER,
+Código: IDN02,
+QtdCharAntesTrunc: 0,
+QtdCharDepoisTrunc: 6,
+TipoSimb: IN,
+Linhas: [8, 32]
+--------------------------------
+Lexeme: HELPER,
+Código: IDN03,
+QtdCharAntesTrunc: 0,
+QtdCharDepoisTrunc: 6,
+TipoSimb: VD,
+Linhas: [18]
+--------------------------------
+Lexeme: X,
+Código: IDN02,
+QtdCharAntesTrunc: 0,
+QtdCharDepoisTrunc: 1,
+TipoSimb: IN,
+Linhas: [18, 20]
+--------------------------------
+Lexeme: MAIN,
+Código: IDN03,
+QtdCharAntesTrunc: 0,
+QtdCharDepoisTrunc: 4,
+TipoSimb: VD,
+Linhas: [24]

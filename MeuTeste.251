@@ -1,48 +1,50 @@
-program Factorial
+program TestSuite
 
 declarations
-integer: n;
-integer: result;
-real: values[5];
-string: greeting;
+varType integer: shortVar, veryLongVariableNameExceedingThirtyTwoCharactersWhichWillBeTruncated;
+varType real[]: dataArray[5], anotherArray[100];
+varType string: message;
+varType boolean: flag;
+varType character: letter;
 endDeclarations
 
 /*
- * Programa escrito em CangaCode2025-1
- * Este é um comentário em bloco.
+ * Comentário externo
+ * /* Comentário interno aninhado */
+ * continua comentário externo
  */
 
 functions
-funcType integer:             factorial(paramType integer: n) {
-    // se n <= 1, retorna 1
-    if (n <= 1) {
-        return 1
-    } else {
-        // recursao: n * factorial(n-1) -> a gramática não permite recursão...
-        return n *                  factorial(paramType integer: (n - 1)) // os espaços são propositais, os filtros devem eliminar esses espaços extras, bem como este comentário.
-    } endIf
-}             endFunction;
+funcType void: helper(paramType integer: x) {
+    // imprime o parâmetro e sai
+    print x
+    return
+} endFunction;
 
 funcType void: main(paramType ?) {
-    n@@ := 5;
-    result := factorial(paramType integer: n); // atribuição para result
-    
-    // exemplo de uso de print
-    print /*result*/sadasd
-    
-    while (n < 10) {
-        n := n + 1
+    // atribuições simples
+    shortVar := 42
+    shortVar := 123456789012345678901234567890123   // inteiro >32 dígitos
+    shortVar := 123456789012345678901234567890123.456 // decimal truncado antes do ponto
+    shortVar := 1E+10  // notação exponencial
+    shortVar := 1E+10 + 50  // notação exponencial
+    flag := true
+    letter := 'Z'
+    message := "Texto com /*não é comentário*/ e //não é linha" 
+
+    if (flag == true) {
+        print 0
+    } else {
+        break
+    } endIf
+
+    while (shortVar < 10) {
+        shortVar := shortVar + 1
     } endWhile
 
-    greeting := "Esta é uma string, espaços extras    aqui       dentro      não devem      ser   eliminados.";
-    
-    return
-} endFunction
-
-/*
- * Programa escrito em CangaCode2025-1
- * Este é um outro comentário em bloco.
- */
+    break   // pausa a execução
+    return  // finaliza sem valor
+} endFunction;
 
 endFunctions
 

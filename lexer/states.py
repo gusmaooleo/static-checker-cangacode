@@ -1,6 +1,6 @@
 from enum import Enum
 
 class State(Enum):
-  VARIABLE = ""
+  VARIABLE = "VARTYPE"
   FUNCTIONNAME = "FUNCTYPE"
   PROGRAMNAME = "PROGRAM"
